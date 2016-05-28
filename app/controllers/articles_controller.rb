@@ -1,4 +1,6 @@
  class ArticlesController < ApplicationController
+   before_action :set_article, only: [:edit, :update, :show, :destroy]
+   
    def index 
      @articles = Article.all
    end
@@ -7,7 +9,6 @@
   end
   
   def edit #this creates a new edit window 
-    @article = Article.find(params[:id])
   end
   
   def create 
@@ -21,7 +22,7 @@
   end
   
   def update 
-  @article = Article.find(params[:id])
+ 
   if @article.update(article_params)
     flash[:notice] = "Article was updated!"
     redirect_to article_path(@article)
@@ -31,10 +32,20 @@
 end
   
   def show #this allows the user to see the articles they created  
-    @article = Article.find(params[:id])
+    
+  end
+  
+  def destroy
+    
+    @article.destroy
+    flash[:notice] = "Article was deleted"
+    redirect_to articles_path
   end
   
   private
+  def set_article
+    @article = Article.find(params[:id])
+  end
   def article_params # this allows all of the information to transfer to the DB
     params.require(:article).permit(:title, :description)
   end
