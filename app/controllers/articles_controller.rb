@@ -54,9 +54,14 @@ end
   end
   
   def require_same_user
-      if current_user
+      if current_user and !current.admin
       flash[:danger] = "you can only edit or delete your own articles"
       redirect_to root_path
+    end
+  end
+  def require_admin
+    if logged_in and current_user.admin?
+      flash[:danger] = "Only admin users can perform that action"
     end
   end
 end
