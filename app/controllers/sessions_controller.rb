@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new 
-    
+    redirect_to articles_path and flash[:danger] = "You are already logged in!" if logged_in?
   end
   
   def create
